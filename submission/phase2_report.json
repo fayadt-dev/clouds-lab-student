@@ -1,0 +1,30 @@
+{
+  "phase": "2",
+  "environment": {
+    "colab": true
+  },
+  "attention": {
+    "naive_ms": 573.474,
+    "vectorized_ms": 1.377,
+    "speedup": 416.47
+  },
+  "threads": {
+    "1": 2781.926,
+    "2": 2420.185,
+    "4": 2616.926,
+    "8": 2803.087
+  },
+  "devices": {
+    "cpu_ms": 506712.7,
+    "gpu_ms": 12766.6
+  },
+  "training": {
+    "steps": 2000,
+    "final_loss": 1.4586,
+    "param_count": 4935680
+  },
+  "sample": "\nby her by is nober the should upon years; if wesgo\nthey proyder for the by the wife is as true\nOf despety.\n\nFirst MARIAM:\nI came years that should wort but in of thou;\nAnd I shall high epehed alry Fro",
+  "model": {
+    "gcs_url": "https://storage.googleapis.com/project-33260770-cf41-4259-a62-eurecomgpt/model.safetensors"
+  }
+}
