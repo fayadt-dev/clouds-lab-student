@@ -20,15 +20,22 @@ import math
 
 from mapreduce import tokenize   # reuse the same tokenizer as the MapReduce word count
 
-
 def term_freq(docs_rdd):
     """TF stage. Input RDD of ``(doc_id, text)``; return RDD of ``((term, doc_id), tf)``.
 
     Emit a ``((term, doc_id), 1)`` for every token (use ``tokenize``), then sum per key.
     """
-    # TODO: flatMap each (doc_id, text) to ((term, doc_id), 1) pairs via tokenize(text),
-    #       then reduceByKey to sum the counts.
-    raise NotImplementedError("Phase 3: implement term_freq()")
+    def emit_pairs(doc):
+        doc_id, text = doc
+        pairs = []
+        for term in tokenize(text):
+            pairs.append(((term, doc_id), 1))
+        return pairs
+
+    def add(a, b):
+        return a + b
+
+    return docs_rdd.flatMap(emit_pairs).reduceByKey(add)
 
 
 def doc_freq(tf_rdd):
@@ -37,8 +44,14 @@ def doc_freq(tf_rdd):
     Each ``(term, doc_id)`` key is one document containing the term, so map to
     ``(term, 1)`` and sum per term.
     """
-    # TODO: map each ((term, doc_id), tf) to (term, 1), then reduceByKey to get (term, df).
-    raise NotImplementedError("Phase 3: implement doc_freq()")
+    def term_one(kv):
+        (term, doc_id), tf = kv
+        return (term, 1)
+
+    def add(a, b):
+        return a + b
+
+    return tf_rdd.map(term_one).reduceByKey(add)
 
 
 def build_tfidf_rdd(docs_rdd, num_docs: int):

@@ -50,21 +50,28 @@ def partition(word: str, num_reducers: int) -> int:
 # --------------------------------------------------------------------------- #
 def map_wc(text: str) -> list[tuple[str, int]]:
     """MAP: emit a ``(word, 1)`` pair for every token in one document."""
-    # TODO: return a (word, 1) pair for each token in `text` (use tokenize()).
-    raise NotImplementedError("Phase 3: implement map_wc()")
+    pairs = []
+    for word in tokenize(text):
+        pairs.append((word, 1))
+    return pairs
 
 
 def shuffle(pairs: list[tuple[str, int]]) -> dict[str, list[int]]:
     """SHUFFLE: group the mapped pairs by key → ``{word: [1, 1, ...]}``."""
-    # TODO: build a dict mapping each word to the list of its emitted values.
-    raise NotImplementedError("Phase 3: implement shuffle()")
+    grouped = {}
+    for word, value in pairs:
+        if word not in grouped:
+            grouped[word] = []
+        grouped[word].append(value)
+    return grouped
 
 
 def reduce_wc(grouped: dict[str, list[int]]) -> dict[str, int]:
     """REDUCE: sum each key's values → ``{word: count}``."""
-    # TODO: return {word: sum(values)} for each key in `grouped`.
-    raise NotImplementedError("Phase 3: implement reduce_wc()")
-
+    counts = {}
+    for word, values in grouped.items():
+        counts[word] = sum(values)
+    return counts
 
 # --------------------------------------------------------------------------- #
 # Local reference runner (provided)
